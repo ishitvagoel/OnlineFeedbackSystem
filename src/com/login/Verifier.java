@@ -3,6 +3,7 @@ package com.login;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -38,18 +39,32 @@ public class Verifier extends HttpServlet {
 		PrintWriter out=response.getWriter();
 		Connector connection1 = new Connector();
 		Connection con = connection1.initConnection();
-		Statement query = null;
+		PreparedStatement query = null;
 		ResultSet result = null;
 		try{
-			query = con.createStatement();
-			result = query.executeQuery("select isAdmin from users where username = " + username);
+			query = con.prepareStatement("select username, isAdmin from users where name = ?");
+			query.setString(1, "Ishitva");
+			result = query.executeQuery();
+			
+			if(!result.next()){	
+				
+				out.print("Invalid Login");
+			}else{
+				
+				if(result.getInt("isAdmin") == 0){
+					
+				}
+				else{
+					
+				}
+					
+			}
+			//Connection closed
+			connection1.closeConnection(con);
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
-		if(result==null){	
-			out.print("Invalid Login");
-		}
-		out.print(username);
+		
 	 }
 
 }

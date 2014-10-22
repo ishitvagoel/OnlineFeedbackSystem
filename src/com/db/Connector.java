@@ -10,7 +10,7 @@ public class Connector {
 		Connection con = null;
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost/OFS","root","pass");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ofs","root","saibaba");
 			
 		}
 		catch(ClassNotFoundException e ){
