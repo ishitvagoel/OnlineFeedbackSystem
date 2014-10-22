@@ -1,0 +1,14 @@
+users table:
+create table users (uid int not null primary key auto_increment , name varchar(50), username varchar(20), password varchar(20), isadmin int default '0');
+
+coursetaken table:
+create table coursetaken (uid int, courseid int, lob_avg int, fac_avg int, ovr_avg int);
+
+coursetaught table:
+create table coursetaught (uid int, courseid int, lob_avg int, fac_avg int, ovr_avg int);
+
+courses table:
+create table courses (courseid int not null primary key , coursename varchar(50), type varchar(20) , scale int);
+
+coursereporting table:
+create table coursereporting (courseid int ,type varchar(50), sessiondate date, avg int);
