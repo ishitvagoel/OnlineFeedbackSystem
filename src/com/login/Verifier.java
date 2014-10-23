@@ -53,17 +53,17 @@ public class Verifier extends HttpServlet {
 				out.print("Invalid Login");
 			}else{
 				
+				ServletContext context = request.getSession().getServletContext();
+				context.setAttribute("username", username);
+				context.setAttribute("uid", result.getInt("uid") );
+				
 				if(result.getInt("isAdmin") == 0){
-					ServletContext context = request.getSession().getServletContext();
-					context.setAttribute("username", username);
-					context.setAttribute("uid", result.getInt("uid") );
+					
 					RequestDispatcher dispatcher = request.getRequestDispatcher("userHome.jsp");
 					dispatcher.forward(request, response);
 				}
 				else{
-					ServletContext context = request.getSession().getServletContext();
-					context.setAttribute("username", username);
-					context.setAttribute("uid", result.getInt("uid") );
+					
 					RequestDispatcher dispatcher = request.getRequestDispatcher("adminHome.jsp");
 					dispatcher.forward(request, response);
 				}
