@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,7 +44,7 @@ public class Verifier extends HttpServlet {
 		ResultSet result = null;
 		try{
 			query = con.prepareStatement("select username, isAdmin from users where name = ?");
-			query.setString(1, "Ishitva");
+			query.setString(1, username);
 			result = query.executeQuery();
 			
 			if(!result.next()){	
@@ -52,10 +53,12 @@ public class Verifier extends HttpServlet {
 			}else{
 				
 				if(result.getInt("isAdmin") == 0){
-					
+					RequestDispatcher dispatcher = request.getRequestDispatcher("userHome.jsp");
+					dispatcher.forward(request, response);
 				}
 				else{
-					
+					RequestDispatcher dispatcher = request.getRequestDispatcher("adminHome.jsp");
+					dispatcher.forward(request, response);
 				}
 					
 			}
