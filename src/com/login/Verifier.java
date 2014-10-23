@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -53,10 +54,16 @@ public class Verifier extends HttpServlet {
 			}else{
 				
 				if(result.getInt("isAdmin") == 0){
+					ServletContext context = request.getSession().getServletContext();
+					context.setAttribute("username", username);
+					context.setAttribute("uid", result.getInt("uid") );
 					RequestDispatcher dispatcher = request.getRequestDispatcher("userHome.jsp");
 					dispatcher.forward(request, response);
 				}
 				else{
+					ServletContext context = request.getSession().getServletContext();
+					context.setAttribute("username", username);
+					context.setAttribute("uid", result.getInt("uid") );
 					RequestDispatcher dispatcher = request.getRequestDispatcher("adminHome.jsp");
 					dispatcher.forward(request, response);
 				}
