@@ -54,12 +54,12 @@ public class Verifier extends HttpServlet {
 			}else{
 				
 				ServletContext context = request.getSession().getServletContext();
-				context.setAttribute("username", username);
+				context.setAttribute("name", result.getString("name"));
 				context.setAttribute("uid", result.getInt("uid") );
 				
 				if(result.getInt("isAdmin") == 0){
 					
-					RequestDispatcher dispatcher = request.getRequestDispatcher("userHome.jsp");
+					RequestDispatcher dispatcher = request.getRequestDispatcher("UserHome.java");
 					dispatcher.forward(request, response);
 				}
 				else{
