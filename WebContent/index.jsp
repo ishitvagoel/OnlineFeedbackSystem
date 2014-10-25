@@ -60,10 +60,10 @@
 
     <div class="container">
 
-      <form class="form-signin" action="./Verifier" method="post" role="form">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <input type="email" class="form-control" placeholder="Email address" required autofocus name="user">
-        <input type="password" class="form-control" placeholder="Password" required name="password" >
+      <form action="./Verifier" method="post" role="form">
+        <h2 >Please sign in</h2>
+        <input type="text"  placeholder="Email address" required autofocus name="user">
+        <input type="password"  placeholder="Password" required name="password" >
 
 	<table>
           <tr>

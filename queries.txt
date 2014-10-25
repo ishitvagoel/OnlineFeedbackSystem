@@ -12,3 +12,6 @@ create table courses (courseid int not null primary key , coursename varchar(50)
 
 coursereporting table:
 create table coursereporting (courseid int ,type varchar(50), sessiondate date, avg int);
+
+questions table:
+create table questions (courseid int , question varchar(255));

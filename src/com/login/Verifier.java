@@ -44,8 +44,9 @@ public class Verifier extends HttpServlet {
 		PreparedStatement query = null;
 		ResultSet result = null;
 		try{
-			query = con.prepareStatement("select username, isAdmin from users where name = ?");
+			query = con.prepareStatement("select username,password, name, uid, isAdmin from users where username = ? and password = ?");
 			query.setString(1, username);
+			query.setString(2, password);
 			result = query.executeQuery();
 			
 			if(!result.next()){	
@@ -58,9 +59,8 @@ public class Verifier extends HttpServlet {
 				context.setAttribute("uid", result.getInt("uid") );
 				
 				if(result.getInt("isAdmin") == 0){
-					
-					RequestDispatcher dispatcher = request.getRequestDispatcher("UserHome.java");
-					dispatcher.forward(request, response);
+					//out.write("Test Message");
+					response.sendRedirect("UserHome");
 				}
 				else{
 					
