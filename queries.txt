@@ -2,7 +2,7 @@ users table:
 create table users (uid int not null primary key auto_increment , name varchar(50), username varchar(20), password varchar(20), isadmin int default '0');
 
 coursetaken table:
-create table coursetaken (uid int, courseid int, lob_avg int, fac_avg int, ovr_avg int);
+create table coursetaken (uid int, courseid int, lob_avg int, fac_avg int, ovr_avg int, facilitator int);
 
 coursetaught table:
 create table coursetaught (uid int, courseid int, lob_avg int, fac_avg int, ovr_avg int);
@@ -14,4 +14,7 @@ coursereporting table:
 create table coursereporting (courseid int ,type varchar(50), sessiondate date, avg int);
 
 questions table:
-create table questions (courseid int , question varchar(255));
+create table questions (courseid int , type int, question varchar(255));
+
+scales table:
+create table scales (scale int, rate int , textval  varchar(25));
