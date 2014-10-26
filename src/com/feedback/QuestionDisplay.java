@@ -38,7 +38,7 @@ public class QuestionDisplay extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		ServletContext context = request.getSession().getServletContext();
+		ServletContext context = getServletContext();
 		PrintWriter writer = response.getWriter();
 		
 		//writer.write(request.getParameter("courseid"));

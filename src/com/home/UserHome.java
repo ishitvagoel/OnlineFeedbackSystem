@@ -38,7 +38,7 @@ public class UserHome extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		ServletContext context = request.getSession().getServletContext();
+		ServletContext context = getServletContext();
 		PrintWriter writer = response.getWriter();
 		writer.write("<h3> Welcome " + (String)context.getAttribute("name") +" to the Online Feedback System</h3><br/>");
 		Connector connector = new Connector();

@@ -42,7 +42,7 @@ public class Calculator extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		ServletContext context = request.getSession().getServletContext();
+		ServletContext context = getServletContext();
 		Connector connector = new Connector();
 		Connection connection = connector.initConnection();
 		PrintWriter writer = response.getWriter();
@@ -56,7 +56,9 @@ public class Calculator extends HttpServlet {
 		int lob_avg, fac_avg, lob_sum = 0 , fac_sum = 0 ;
 		for(int i = 1 ; i <= 3 ; i++){ // Upper limit is hardcoded just for the time being. It must be the value of total questions received through the context.
 			 lob_sum += Integer.parseInt(request.getParameter("lob_q"+i));
-			 fac_sum += Integer.parseInt(request.getParameter("fac_q"+i));
+		}
+		for(int j = 1 ; j <= 3 ; j++){ // Upper limit is hardcoded just for the time being. It must be the value of total questions received through the context.
+			 fac_sum += Integer.parseInt(request.getParameter("fac_q"+j));
 		}
 		lob_avg = lob_sum/3 ;
 		fac_avg = fac_sum/3 ;
@@ -64,12 +66,14 @@ public class Calculator extends HttpServlet {
 			Statement statement = connection.createStatement();
 			
 			statement.executeUpdate("insert into averaging (courseid, facilitator,lob_avg, fac_avg) values ("+request.getParameter("courseid") + "," + request.getParameter("fuid") + "," + lob_avg + "," + fac_avg + ")");
+			statement.executeUpdate("update coursetaken set submitted = 1 where uid = " + (Integer)context.getAttribute("uid") + " and courseid = " + request.getParameter("courseid") );
 			writer.write("Thank you for the feedback<br>Learning Objectives Average :" + lob_avg +"<br>Facilitator Average :"+ fac_avg);
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		connector.closeConnection(connection);
 		
 	}
 

@@ -54,7 +54,7 @@ public class Verifier extends HttpServlet {
 				out.print("Invalid Login");
 			}else{
 				
-				ServletContext context = request.getSession().getServletContext();
+				ServletContext context = getServletContext();
 				context.setAttribute("name", result.getString("name"));
 				context.setAttribute("uid", result.getInt("uid") );
 				
