@@ -1,7 +1,7 @@
 users table:
 create table users (uid int not null primary key auto_increment , name varchar(50), username varchar(20), password varchar(20), isadmin int default '0');
 
-coursetaken table:
+coursetaken table: to add a column holding flag vale whether the feedback has been taken or not. lob_avg, fac_avg must be deleted.
 create table coursetaken (uid int, courseid int, lob_avg int, fac_avg int, ovr_avg int, facilitator int);
 
 coursetaught table:
@@ -18,3 +18,6 @@ create table questions (courseid int , type int, question varchar(255));
 
 scales table:
 create table scales (scale int, rate int , textval  varchar(25));
+
+averaging table: (data obtained from trainee) We can add session date and type here, then we can do away with coursereporting table ?
+create table averaging (courseid int , facilitator int , lob_avg int , fac_avg int );

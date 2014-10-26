@@ -43,7 +43,7 @@ public class UserHome extends HttpServlet {
 		writer.write("<h3> Welcome " + (String)context.getAttribute("name") +" to the Online Feedback System</h3><br/>");
 		Connector connector = new Connector();
 		Connection connection = connector.initConnection();
-		String sql = "select c.coursename , c.scale , ct.courseid from courses c, coursetaken ct where ct.uid = ? and ct.courseid = c.courseid";
+		String sql = "select c.coursename , c.scale , ct.courseid, ct.facilitator from courses c, coursetaken ct where ct.uid = ? and ct.courseid = c.courseid";
 		PreparedStatement statement = null;
 		ResultSet courseIds = null;
 		try{
@@ -53,8 +53,7 @@ public class UserHome extends HttpServlet {
 			
 			while(courseIds.next()){
 				writer.write("<br/>");
-				//****************To verify the following
-				writer.write("<a href = \"QuestionDisplay?courseid=" + courseIds.getInt("ct.courseid") + "&scale=" +  courseIds.getInt("c.scale")+ "\">" + courseIds.getString("c.coursename") + "</a><br/>");
+				writer.write("<a href = \"QuestionDisplay?courseid=" + courseIds.getInt("ct.courseid") + "&scale=" +  courseIds.getInt("c.scale")+"&fuid="+ courseIds.getInt("ct.facilitator") + "\">" + courseIds.getString("c.coursename") + "</a><br/>");
 				
 			}
 			connector.closeConnection(connection);

@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,7 +38,9 @@ public class QuestionDisplay extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		ServletContext context = request.getSession().getServletContext();
 		PrintWriter writer = response.getWriter();
+		
 		//writer.write(request.getParameter("courseid"));
 		Connector connector = new Connector();
 		Connection connection = connector.initConnection();
@@ -54,7 +57,7 @@ public class QuestionDisplay extends HttpServlet {
 		    statementRates = connection.createStatement();
 		    questions = statementQues.executeQuery(sql1);
 			rates = statementRates.executeQuery(sql3);
-			writer.write("<form action = \"Calculator\" method = \"post\"> <table>" +
+			writer.write("<html><head></head><body><form action = \"Calculator?fuid=" + request.getParameter("fuid") + "&courseid=" + request.getParameter("courseid") + "\" method = \"post\"><table>" +
 						"<th>" +
 						"<td>Question</td><td>Ratings</td>"+
 						"</th>");
@@ -62,22 +65,25 @@ public class QuestionDisplay extends HttpServlet {
 			while(questions.next()){
 				writer.write("<tr><td>" + questions.getString("question") +"</td>");
 				while(rates.next()){
-					writer.write("<td>"+rates.getString("textval")+ " <input type = \"radio\" name=\""+ qno + "\" value = " + rates.getInt("rate") + " ></td>");
+					writer.write("<td>"+rates.getString("textval")+ " <input type = \"radio\" name=\"q"+ qno +"\" value = " + rates.getInt("rate") + " ></td>");
 				}
 				rates.beforeFirst();
 				writer.write("</tr>");
 				qno++;
 				
 			}
-			writer.write("</table><input type = \"submit\"></form>");
+			
+			writer.write("</table><input type = \"submit\"></form></body></html>");
+			
+			writer.write(qno);
+			context.setAttribute("tot", qno);
+
 			connector.closeConnection(connection);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-		ServletContext context = request.getSession().getServletContext();
-		context.setAttribute("totalques", qno);
-		
+				
 	}
 
 	/**
