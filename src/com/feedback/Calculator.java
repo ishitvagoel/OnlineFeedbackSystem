@@ -49,20 +49,22 @@ public class Calculator extends HttpServlet {
 		
 		//writer.write("Hello");
 		//***************** To Correct . context attribute is not being made available. Null Pointer Excpetion is occuring.
-		//int tot = (Integer)context.getAttribute("tot");
-		//writer.write(tot);
-		int lob_avg, sum = 0 ; //fac_avg will be added later.
-		for(int i = 1 ; i <= 3 ; i++){ // Upper limit is hardcoded just for the time being. It must be the value of total questions received through the context.
-			 sum += Integer.parseInt(request.getParameter("q"+i));
-			
-		}
-		lob_avg = sum/3 ;
+		//int lob_tot = (Integer)context.getAttribute("lob_tot");
+		//int fac_tot = (Integer)context.getAttribute("fac_tot");
+		//writer.write(lob_tot);
 		
+		int lob_avg, fac_avg, lob_sum = 0 , fac_sum = 0 ;
+		for(int i = 1 ; i <= 3 ; i++){ // Upper limit is hardcoded just for the time being. It must be the value of total questions received through the context.
+			 lob_sum += Integer.parseInt(request.getParameter("lob_q"+i));
+			 fac_sum += Integer.parseInt(request.getParameter("fac_q"+i));
+		}
+		lob_avg = lob_sum/3 ;
+		fac_avg = fac_sum/3 ;
 		try {
 			Statement statement = connection.createStatement();
-			//the following query will be updated with insertion into the column fac_avg as well.
-			statement.executeUpdate("insert into averaging (courseid, facilitator,lob_avg) values ("+request.getParameter("courseid") + "," + request.getParameter("fuid") + "," + lob_avg + ")");
-			writer.write("Thank you for the feedback");
+			
+			statement.executeUpdate("insert into averaging (courseid, facilitator,lob_avg, fac_avg) values ("+request.getParameter("courseid") + "," + request.getParameter("fuid") + "," + lob_avg + "," + fac_avg + ")");
+			writer.write("Thank you for the feedback<br>Learning Objectives Average :" + lob_avg +"<br>Facilitator Average :"+ fac_avg);
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

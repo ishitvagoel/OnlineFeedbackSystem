@@ -45,13 +45,14 @@ public class QuestionDisplay extends HttpServlet {
 		Connector connector = new Connector();
 		Connection connection = connector.initConnection();
 		String sql1 = "select question from questions where courseid = " + request.getParameter("courseid") + " and type = 1";
-		//String sql2 = "select question from questions where courseid = " + request.getParameter("courseid") + " and type = 2";
+		String sql2 = "select question from questions where courseid = " + request.getParameter("courseid") + " and type = 2";
 		String sql3 = "select rate, textval from scales where scale = " + request.getParameter("scale") + " order by rate asc";
 		ResultSet questions = null;
 		ResultSet rates = null;
 		Statement statementQues = null ;
 		Statement statementRates = null ;
-		int qno = 1;
+		int lob_qno = 1;
+		int fac_qno = 1;
 		try {
 		    statementQues = connection.createStatement();
 		    statementRates = connection.createStatement();
@@ -65,24 +66,37 @@ public class QuestionDisplay extends HttpServlet {
 			while(questions.next()){
 				writer.write("<tr><td>" + questions.getString("question") +"</td>");
 				while(rates.next()){
-					writer.write("<td>"+rates.getString("textval")+ " <input type = \"radio\" name=\"q"+ qno +"\" value = " + rates.getInt("rate") + " ></td>");
+					writer.write("<td>"+rates.getString("textval")+ " <input type = \"radio\" name=\"lob_q"+ lob_qno +"\" value = " + rates.getInt("rate") + " ></td>");
 				}
 				rates.beforeFirst();
 				writer.write("</tr>");
-				qno++;
+				lob_qno++;
 				
 			}
-			
+			questions = statementQues.executeQuery(sql2);
+			rates.beforeFirst();
+			writer.write("<br><br>Questions about the facilitator");
+			while(questions.next()){
+				writer.write("<tr><td>" + questions.getString("question") +"</td>");
+				while(rates.next()){
+					writer.write("<td>"+rates.getString("textval")+ " <input type = \"radio\" name=\"fac_q"+ fac_qno +"\" value = " + rates.getInt("rate") + " ></td>");
+				}
+				rates.beforeFirst();
+				writer.write("</tr>");
+				fac_qno++;
+				
+			}
 			writer.write("</table><input type = \"submit\"></form></body></html>");
 			
-			writer.write(qno);
-			context.setAttribute("tot", qno);
-
+			//writer.write(lob_qno);
+			
 			connector.closeConnection(connection);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		}
+		context.setAttribute("lob_tot", lob_qno);
+		context.setAttribute("fac_tot", fac_qno);
 				
 	}
 
